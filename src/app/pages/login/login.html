@@ -1,0 +1,36 @@
+  <div class="max-w-md mx-auto mt-24 p-6 bg-white dark:bg-gray-800 rounded shadow">
+    <h2 class="text-xl font-semibold mb-4">Iniciar sesión</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()"
+          class="space-y-4">
+      <div>
+        <label class="block text-sm mb-1">Email</label>
+        <input type="email" formControlName="email"
+               class="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600">
+        @if (email.invalid && (email.dirty || email.touched)) {
+          <small class="text-red-600">
+            Ingresa un email válido.
+          </small>
+        }
+      </div>
+
+      <div>
+        <label class="block text-sm mb-1">Password</label>
+        <input type="password" formControlName="password"
+               class="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600">
+        @if (password.invalid && (password.dirty || password.touched)) {
+            <small class="text-red-600">
+                Mínimo 6 caracteres.
+            </small>
+        }  </div>
+
+      <button type="submit" [disabled]="form.invalid"
+              class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+        Entrar
+      </button>
+
+      <div class="text-center">
+        <a routerLink="/register" class="text-sm text-blue-600 hover:underline">Crear cuenta</a>
+      </div>
+    </form>
+  </div>

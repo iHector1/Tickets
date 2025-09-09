@@ -1,0 +1,113 @@
+<!-- NAVBAR SUPERIOR -->
+<nav class="fixed top-0 z-50 w-full bg-white dark:bg-gray-800">
+  <div class="px-3 py-3 lg:px-5 lg:pl-3">
+    <div class="flex items-center justify-between">
+      <!-- Izquierda: hamburguesa + logo -->
+      <div class="flex items-center gap-3">
+        <button
+          (click)="toggleSidebar()"
+          type="button"
+          class="inline-flex items-center p-2 text-sm text-gray-600 rounded-lg hover:bg-gray-100
+                 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-300 dark:hover:bg-gray-700
+                 dark:focus:ring-gray-600"
+          aria-label="Toggle sidebar">
+          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+            <path clip-rule="evenodd" fill-rule="evenodd"
+              d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 
+                 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 
+                 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"/>
+          </svg>
+        </button>
+
+        <a routerLink="/" class="flex items-center gap-2">
+          <img [src]="logoSrc" class="h-8" alt="Logo" />
+          <span class="text-xl font-semibold whitespace-nowrap dark:text-white">MiApp</span>
+        </a>
+      </div>
+
+      <div class="flex items-center"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- OVERLAY: sólo en móvil y cuando está abierto -->
+@if (isMobile && sidebarOpen) {
+  <div class="fixed inset-0 z-30 bg-black/30" (click)="closeSidebar()"></div>
+}
+
+<!-- SIDEBAR -->
+<aside
+  [class.-translate-x-full]="!sidebarOpen"
+  [class.translate-x-0]="sidebarOpen"
+  class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform bg-white border-r border-gray-200
+         sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+  aria-label="Sidebar">
+  <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+    <ul class="space-y-1 font-medium">
+      <li>
+        <a routerLink="/"
+           routerLinkActive="bg-gray-100 dark:bg-gray-700"
+           [routerLinkActiveOptions]="{ exact: true }"
+           class="flex items-center gap-3 p-2 text-gray-900 rounded-lg hover:bg-gray-100
+                  dark:text-white dark:hover:bg-gray-700">
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/users"
+           routerLinkActive="bg-gray-100 dark:bg-gray-700"
+           [routerLinkActiveOptions]="{ exact: true }"
+           class="flex items-center gap-3 p-2 text-gray-900 rounded-lg hover:bg-gray-100
+                  dark:text-white dark:hover:bg-gray-700">
+          <span>Users</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/products"
+           routerLinkActive="bg-gray-100 dark:bg-gray-700"
+           [routerLinkActiveOptions]="{ exact: true }"
+           class="flex items-center gap-3 p-2 text-gray-900 rounded-lg hover:bg-gray-100
+                  dark:text-white dark:hover:bg-gray-700">
+          <span>Products</span>
+        </a>
+      </li>
+
+      <li class="pt-2 mt-2 border-t border-gray-200 dark:border-gray-700"></li>
+
+      <li>
+        <a routerLink="/login"
+           routerLinkActive="bg-gray-100 dark:bg-gray-700"
+           [routerLinkActiveOptions]="{ exact: true }"
+           class="flex items-center gap-3 p-2 text-gray-900 rounded-lg hover:bg-gray-100
+                  dark:text-white dark:hover:bg-gray-700">
+          <span>Login</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/register"
+           routerLinkActive="bg-gray-100 dark:bg-gray-700"
+           [routerLinkActiveOptions]="{ exact: true }"
+           class="flex items-center gap-3 p-2 text-gray-900 rounded-lg hover:bg-gray-100
+                  dark:text-white dark:hover:bg-gray-700">
+          <span>Register</span>
+        </a>
+      </li>
+            <li>
+        <a routerLink="/tickets/new"
+           routerLinkActive="bg-gray-100 dark:bg-gray-700"
+           [routerLinkActiveOptions]="{ exact: true }"
+           class="flex items-center gap-3 p-2 text-gray-900 rounded-lg hover:bg-gray-100
+                  dark:text-white dark:hover:bg-gray-700">
+          <span>Nuevo Ticket</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</aside>
+
+<!-- CONTENIDO: empuja a la derecha en desktop cuando está abierto -->
+<main
+  class="mt-16 p-4 min-h-screen bg-gray-50 text-gray-900 dark:bg-slate-900 dark:text-slate-100 transition-[margin]"
+  [class.sm\:ml-64]="!isMobile && sidebarOpen">
+  <router-outlet></router-outlet>
+</main>

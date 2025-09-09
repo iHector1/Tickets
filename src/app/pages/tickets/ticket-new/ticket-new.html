@@ -1,0 +1,104 @@
+<div class="max-w-3xl mx-auto mt-8">
+  <h1 class="text-2xl font-bold mb-4">Levantar ticket</h1>
+
+  <form (ngSubmit)="submit()" [formGroup]="form" class="space-y-6">
+
+    <div>
+      <label class="block text-sm mb-1">Título *</label>
+      <input type="text" formControlName="title"
+             class="w-full border rounded px-3 py-2 bg-white dark:bg-slate-800 border-gray-300 dark:border-slate-600">
+      @if (f.title.touched && f.title.invalid) {
+        <p class="text-red-600 text-sm mt-1">Requerido (máx. 160).</p>
+      }
+    </div> 
+
+    <div>
+      <label class="block text-sm mb-1">Descripción *</label>
+      <textarea rows="6" formControlName="description"
+                class="w-full border rounded px-3 py-2 bg-white dark:bg-slate-800 border-gray-300 dark:border-slate-600"></textarea>
+      @if (f.description.touched && f.description.invalid) {
+        <p class="text-red-600 text-sm mt-1">Describe el problema (mín. 10 caracteres).</p>
+      }
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm mb-1">Prioridad *</label>
+        <select formControlName="priority"
+                class="w-full border rounded px-3 py-2 bg-white dark:bg-slate-800 border-gray-300 dark:border-slate-600">
+          @for (p of priorities; track p.value) {
+            <option [value]="p.value">{{ p.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm mb-1">Categoría *</label>
+        <select formControlName="categoryId"
+                class="w-full border rounded px-3 py-2 bg-white dark:bg-slate-800 border-gray-300 dark:border-slate-600">
+          <option [ngValue]="null" disabled>Selecciona...</option>
+          @for (c of categories; track c.id) {
+            <option [ngValue]="c.id">{{ c.name }}</option>
+          }
+        </select>
+        @if (f.categoryId.touched && f.categoryId.invalid) {
+          <p class="text-red-600 text-sm mt-1">Requerido.</p>
+        }
+      </div>
+
+      <div>
+        <label class="block text-sm mb-1">Proyecto *</label>
+        <select formControlName="projectId"
+                class="w-full border rounded px-3 py-2 bg-white dark:bg-slate-800 border-gray-300 dark:border-slate-600">
+          <option [ngValue]="null" disabled>Selecciona...</option>
+          @for (p of projects; track p.id) {
+            <option [ngValue]="p.id">{{ p.name }}</option>
+          }
+        </select>
+        @if (f.projectId.touched && f.projectId.invalid) {
+          <p class="text-red-600 text-sm mt-1">Requerido.</p>
+        }
+      </div>
+
+      <div>
+        <label class="block text-sm mb-1">Asignar a</label>
+        <select formControlName="assigneeId"
+                class="w-full border rounded px-3 py-2 bg-white dark:bg-slate-800 border-gray-300 dark:border-slate-600">
+          <option [ngValue]="null">Sin asignar</option>
+          @for (u of users; track u.id) {
+            <option [ngValue]="u.id">{{ u.name }}</option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm mb-1">Fecha límite</label>
+        <input type="date" formControlName="dueAt"
+               class="w-full border rounded px-3 py-2 bg-white dark:bg-slate-800 border-gray-300 dark:border-slate-600">
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1">Tags (separados por coma)</label>
+      <input type="text" formControlName="tags" placeholder="ej. bug, api"
+             class="w-full border rounded px-3 py-2 bg-white dark:bg-slate-800 border-gray-300 dark:border-slate-600">
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1">Adjuntos</label>
+      <input type="file" multiple (change)="onFileChange($event)"
+             class="block w-full text-sm text-gray-700 file:mr-3 file:py-2 file:px-3
+                    file:rounded file:border-0 file:bg-gray-100 dark:file:bg-slate-700 file:text-gray-700
+                    dark:text-gray-200">
+      <p class="text-xs text-gray-500 mt-1">Puedes adjuntar capturas, PDFs, etc.</p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button type="submit"
+              class="btn-primary px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">
+        Crear ticket
+      </button>
+      <a routerLink="/" class="text-sm text-gray-600 dark:text-gray-300 hover:underline">Cancelar</a>
+    </div>
+  </form>
+</div>
