@@ -14,14 +14,10 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./side-navbar.css']
 })
 export class SideNavbar implements OnInit, OnDestroy {
-  logoSrc = '/img/logo.png';
-
-  // ✅ Seguro para SSR: no depende del orden del constructor
   readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  // Estado responsive calculado SOLO en navegador
-  isMobile = false;      // < 640px
-  sidebarOpen = true;    // abierto por defecto en desktop
+  isMobile = false;
+  sidebarOpen = true;
 
   private navSub?: Subscription;
 
@@ -31,7 +27,6 @@ export class SideNavbar implements OnInit, OnDestroy {
     if (this.isBrowser) {
       this.updateViewportFlags();
 
-      // Cierra el sidebar al navegar SOLO en móvil
       this.navSub = this.router.events
         .pipe(filter(e => e instanceof NavigationEnd))
         .subscribe(() => {
@@ -59,7 +54,6 @@ export class SideNavbar implements OnInit, OnDestroy {
   }
 
   private updateViewportFlags() {
-    // Usa matchMedia para alinear con el breakpoint sm de Tailwind
     if (this.isBrowser && typeof window !== 'undefined') {
       this.isMobile = window.matchMedia('(max-width: 639px)').matches;
       this.sidebarOpen = !this.isMobile;

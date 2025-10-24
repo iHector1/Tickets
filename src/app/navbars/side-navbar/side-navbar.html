@@ -1,113 +1,158 @@
 <!-- NAVBAR SUPERIOR -->
-<nav class="fixed top-0 z-50 w-full bg-white dark:bg-gray-800">
-  <div class="px-3 py-3 lg:px-5 lg:pl-3">
+<nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+  <div class="px-4 py-3 lg:px-6">
     <div class="flex items-center justify-between">
-      <!-- Izquierda: hamburguesa + logo -->
+      <!-- Izquierda: hamburguesa (solo móvil) + título -->
       <div class="flex items-center gap-3">
-        <button
-          (click)="toggleSidebar()"
-          type="button"
-          class="inline-flex items-center p-2 text-sm text-gray-600 rounded-lg hover:bg-gray-100
-                 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-300 dark:hover:bg-gray-700
-                 dark:focus:ring-gray-600"
-          aria-label="Toggle sidebar">
-          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-            <path clip-rule="evenodd" fill-rule="evenodd"
-              d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 
-                 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 
-                 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"/>
-          </svg>
-        </button>
+        <!-- Botón hamburguesa - SOLO visible en móvil -->
+        @if (isMobile) {
+          <button
+            (click)="toggleSidebar()"
+            type="button"
+            class="inline-flex items-center p-2 text-gray-600 rounded-lg hover:bg-gray-100
+                   focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 
+                   dark:hover:bg-gray-700 dark:focus:ring-gray-600 transition-colors"
+            aria-label="Toggle sidebar">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        }
 
-        <a routerLink="/" class="flex items-center gap-2">
-          <img [src]="logoSrc" class="h-8" alt="Logo" />
-          <span class="text-xl font-semibold whitespace-nowrap dark:text-white">MiApp</span>
+        <a routerLink="/" class="flex items-center">
+          <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 
+                       bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400">
+            MiApp
+          </span>
         </a>
       </div>
 
-      <div class="flex items-center"></div>
+      <div class="flex items-center gap-2">
+        <!-- Aquí puedes agregar botones de usuario, notificaciones, etc -->
+      </div>
     </div>
   </div>
 </nav>
 
-<!-- OVERLAY: sólo en móvil y cuando está abierto -->
+<!-- OVERLAY: sólo en móvil cuando sidebar está abierto -->
 @if (isMobile && sidebarOpen) {
-  <div class="fixed inset-0 z-30 bg-black/30" (click)="closeSidebar()"></div>
+  <div 
+    class="fixed inset-0 z-30 bg-gray-900/50 backdrop-blur-sm transition-opacity" 
+    (click)="closeSidebar()">
+  </div>
 }
 
 <!-- SIDEBAR -->
 <aside
   [class.-translate-x-full]="!sidebarOpen"
   [class.translate-x-0]="sidebarOpen"
-  class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform bg-white border-r border-gray-200
-         sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+  class="fixed top-0 left-0 z-40 w-64 h-screen pt-16 transition-transform duration-300
+         bg-white border-r border-gray-200 sm:translate-x-0 
+         dark:bg-gray-900 dark:border-gray-700"
   aria-label="Sidebar">
-  <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
-    <ul class="space-y-1 font-medium">
+  
+  <div class="h-full px-3 py-4 overflow-y-auto">
+    <!-- Navegación Principal -->
+    <ul class="space-y-2 font-medium">
       <li>
         <a routerLink="/"
-           routerLinkActive="bg-gray-100 dark:bg-gray-700"
+           routerLinkActive="bg-blue-50 text-blue-600 dark:bg-gray-800 dark:text-blue-400"
            [routerLinkActiveOptions]="{ exact: true }"
-           class="flex items-center gap-3 p-2 text-gray-900 rounded-lg hover:bg-gray-100
-                  dark:text-white dark:hover:bg-gray-700">
+           class="flex items-center gap-3 px-3 py-2.5 text-gray-700 rounded-lg 
+                  hover:bg-gray-100 transition-colors dark:text-gray-300 dark:hover:bg-gray-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
           <span>Dashboard</span>
         </a>
       </li>
+      
       <li>
         <a routerLink="/users"
-           routerLinkActive="bg-gray-100 dark:bg-gray-700"
+           routerLinkActive="bg-blue-50 text-blue-600 dark:bg-gray-800 dark:text-blue-400"
            [routerLinkActiveOptions]="{ exact: true }"
-           class="flex items-center gap-3 p-2 text-gray-900 rounded-lg hover:bg-gray-100
-                  dark:text-white dark:hover:bg-gray-700">
-          <span>Users</span>
+           class="flex items-center gap-3 px-3 py-2.5 text-gray-700 rounded-lg 
+                  hover:bg-gray-100 transition-colors dark:text-gray-300 dark:hover:bg-gray-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+          <span>Usuarios</span>
         </a>
       </li>
+      
       <li>
         <a routerLink="/products"
-           routerLinkActive="bg-gray-100 dark:bg-gray-700"
+           routerLinkActive="bg-blue-50 text-blue-600 dark:bg-gray-800 dark:text-blue-400"
            [routerLinkActiveOptions]="{ exact: true }"
-           class="flex items-center gap-3 p-2 text-gray-900 rounded-lg hover:bg-gray-100
-                  dark:text-white dark:hover:bg-gray-700">
-          <span>Products</span>
+           class="flex items-center gap-3 px-3 py-2.5 text-gray-700 rounded-lg 
+                  hover:bg-gray-100 transition-colors dark:text-gray-300 dark:hover:bg-gray-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+          </svg>
+          <span>Productos</span>
         </a>
       </li>
 
-      <li class="pt-2 mt-2 border-t border-gray-200 dark:border-gray-700"></li>
+      <li>
+        <a routerLink="/tickets/new"
+           routerLinkActive="bg-blue-50 text-blue-600 dark:bg-gray-800 dark:text-blue-400"
+           [routerLinkActiveOptions]="{ exact: true }"
+           class="flex items-center gap-3 px-3 py-2.5 text-gray-700 rounded-lg 
+                  hover:bg-gray-100 transition-colors dark:text-gray-300 dark:hover:bg-gray-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>
+          </svg>
+          <span>Nuevo Ticket</span>
+        </a>
+      </li>
+    </ul>
 
+    <!-- Separador -->
+    <div class="my-4 border-t border-gray-200 dark:border-gray-700"></div>
+
+    <!-- Sección de Cuenta -->
+    <ul class="space-y-2 font-medium">
       <li>
         <a routerLink="/login"
-           routerLinkActive="bg-gray-100 dark:bg-gray-700"
+           routerLinkActive="bg-blue-50 text-blue-600 dark:bg-gray-800 dark:text-blue-400"
            [routerLinkActiveOptions]="{ exact: true }"
-           class="flex items-center gap-3 p-2 text-gray-900 rounded-lg hover:bg-gray-100
-                  dark:text-white dark:hover:bg-gray-700">
-          <span>Login</span>
+           class="flex items-center gap-3 px-3 py-2.5 text-gray-700 rounded-lg 
+                  hover:bg-gray-100 transition-colors dark:text-gray-300 dark:hover:bg-gray-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+          </svg>
+          <span>Iniciar Sesión</span>
         </a>
       </li>
+      
       <li>
         <a routerLink="/register"
-           routerLinkActive="bg-gray-100 dark:bg-gray-700"
+           routerLinkActive="bg-blue-50 text-blue-600 dark:bg-gray-800 dark:text-blue-400"
            [routerLinkActiveOptions]="{ exact: true }"
-           class="flex items-center gap-3 p-2 text-gray-900 rounded-lg hover:bg-gray-100
-                  dark:text-white dark:hover:bg-gray-700">
-          <span>Register</span>
-        </a>
-      </li>
-            <li>
-        <a routerLink="/tickets/new"
-           routerLinkActive="bg-gray-100 dark:bg-gray-700"
-           [routerLinkActiveOptions]="{ exact: true }"
-           class="flex items-center gap-3 p-2 text-gray-900 rounded-lg hover:bg-gray-100
-                  dark:text-white dark:hover:bg-gray-700">
-          <span>Nuevo Ticket</span>
+           class="flex items-center gap-3 px-3 py-2.5 text-gray-700 rounded-lg 
+                  hover:bg-gray-100 transition-colors dark:text-gray-300 dark:hover:bg-gray-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+          </svg>
+          <span>Registrarse</span>
         </a>
       </li>
     </ul>
   </div>
 </aside>
 
-<!-- CONTENIDO: empuja a la derecha en desktop cuando está abierto -->
+<!-- CONTENIDO PRINCIPAL -->
 <main
-  class="mt-16 p-4 min-h-screen bg-gray-50 text-gray-900 dark:bg-slate-900 dark:text-slate-100 transition-[margin]"
-  [class.sm\:ml-64]="!isMobile && sidebarOpen">
-  <router-outlet></router-outlet>
+  class="pt-16 min-h-screen bg-gray-50 dark:bg-gray-900 transition-all duration-300"
+  [class.sm:ml-64]="!isMobile && sidebarOpen">
+  <div class="p-4 sm:p-6 lg:p-8">
+    <router-outlet></router-outlet>
+  </div>
 </main>
